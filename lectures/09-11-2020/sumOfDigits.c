@@ -49,7 +49,6 @@ int isEven(int number){
 }
 
 void printEvenSumOfDigits(){
-    //tazi funckiq shte eba maika ti
     int number = 1, sum = 0;
 
     while (TRUE){
@@ -87,7 +86,7 @@ void countNumbersWithEqualFirstAndLastDigits(){
         printf("Enter number: ");
         scanf("%d", &number);
 
-        if (number == 0){ //! strahoten kod bravo babo :)))
+        if (number == 0){
             break;
         }
 
