@@ -55,7 +55,7 @@ void printEvenSumOfDigits(){
         printf("Enter number: ");
         scanf("%d", &number);
 
-        if (number == 0){ //! strahoten kod bravo babo :)))
+        if (number == 0){
             break;
         }
 
