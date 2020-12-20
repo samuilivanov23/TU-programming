@@ -26,7 +26,7 @@ int * SumCountEven(){
 			sum += number;
 			count++;		
 		}
-
+		
 	}while(!feof(stdin));
 
 	static int arr[2];
