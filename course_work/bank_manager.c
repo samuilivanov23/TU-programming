@@ -26,16 +26,17 @@ int main(){
     size_t maxSize = 64;
     int accounts_count = 0;
     struct _BankAccount *accounts_archive = malloc(sizeof(*accounts_archive) * maxSize);
+    
+    if (accounts_archive == NULL){
+        return EXIT_FAILURE;
+    }
 
     struct _BankAccount customer_account;
-
     struct _Customer customer;
     customer.isLogged = 0;
-
     char command[10];
 
     while(1){
-
         printf("enter command#> ");
         scanf("%s", command);
 
@@ -102,6 +103,7 @@ int main(){
         printf("%d password: %s\n", i, accounts_archive[i].password);
     }
 
+    free(accounts_archive);
     return 0;
 }
 
