@@ -22,7 +22,6 @@ void Transfer(struct _Customer *customer, struct _BankAccount *accounts_archive,
 void Info(struct _BankAccount *custommer_account);
 
 int main(){
-
     size_t maxSize = 64;
     int accounts_count = 0;
     struct _BankAccount *accounts_archive = malloc(sizeof(*accounts_archive) * maxSize);
@@ -126,7 +125,7 @@ void LoginCustomer(struct _Customer *customer, struct _BankAccount *accounts_arc
 
     int i;
     for(i = 0; i < *accounts_count; i++){
-        if(strcmp(input_password, accounts_archive[i].password) == 0 && customer->isLogged == 0){
+        if((input_ID == accounts_archive[i].id) && strcmp(input_password, accounts_archive[i].password) == 0 && customer->isLogged == 0){
             customer->isLogged = 1;
             customer->account = &accounts_archive[i];
             break;
