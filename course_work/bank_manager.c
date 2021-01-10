@@ -140,8 +140,8 @@ void Draw(struct _Customer *customer){
     while(1){
         scanf("%lf", &amount);
 
-        if(customer->account->balance - amount < 0){
-            printf("Amount is too large! Please enter less money to draw!\n");
+        if((amount < 0) || (customer->account->balance - amount < 0)){
+            printf("Amount is too large or negative! Please enter correct value!\n");
         }
         else{
             customer->account->balance -= amount;
@@ -152,9 +152,18 @@ void Draw(struct _Customer *customer){
 
 void Put(struct _Customer *customer){
     double amount;
-    scanf("%lf", &amount);
 
-    customer->account->balance += amount;
+    while (1){
+        scanf("%lf", &amount);
+
+        if(amount < 0){
+            printf("Enter positive amount");
+        }
+        else{
+            customer->account->balance += amount;
+            break;
+        }
+    }
 }
 
 void Transfer(struct _Customer *customer, struct _BankAccount *accounts_archive, int *accounts_count){
@@ -171,8 +180,8 @@ void Transfer(struct _Customer *customer, struct _BankAccount *accounts_archive,
             while(1){
                 scanf("%lf", &amount);
 
-                if(customer->account->balance - amount < 0){
-                    printf("Amount too large! Enter less money to transfer\n");
+                if((amount < 0) || customer->account->balance - amount < 0){
+                    printf("Amount too large or negative! Enter correct value\n");
                 }
                 else{
                     customer->account->balance -= amount;
