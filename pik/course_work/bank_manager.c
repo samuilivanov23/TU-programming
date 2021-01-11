@@ -33,6 +33,7 @@ int main(){
     struct _BankAccount customer_account;
     struct _Customer customer;
     customer.isLogged = 0;
+    customer.account = NULL;
     char command[10];
 
     while(1){
@@ -47,9 +48,14 @@ int main(){
             if(accounts_count > 0){
                 LoginCustomer(&customer, accounts_archive, &accounts_count);
 
-                printf("\nLOGGED customer account: \n");
-                printf("id: %d\n", customer.account->id);
-                printf("balance: %lf\n", customer.account->balance);
+                if(customer.account != NULL){
+                    printf("\nLOGGED customer account: \n");
+                    printf("id: %d\n", customer.account->id);
+                    printf("balance: %lf\n", customer.account->balance);
+                }
+                else{
+                    printf("Incorrect login info\n");
+                }
             }
             else{
                 printf("Please enter at leat 1 bank account!\n");

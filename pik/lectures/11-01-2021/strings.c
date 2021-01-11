@@ -17,7 +17,7 @@ int main(){
 
     text = ReadText();
     if(text == NULL){
-        return(EXIT_FAILURE);
+        return EXIT_FAILURE;
     }
 
     result = Split(text, ',', &array_size, &allocated_size);
@@ -49,7 +49,7 @@ char *ReadText(){
     string = (char*)malloc(strlen(buffer) * sizeof(char));
     if(string == NULL){
         printf("Error while allocating memory");
-        return(NULL);
+        return NULL;
     }
     
     strcpy(string, buffer);
