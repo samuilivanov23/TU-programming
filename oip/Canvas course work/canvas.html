@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script src="drawing.js"></script>
+    </head>
+    <body>
+        <div class="header-container">
+            <h1>
+                Course Work №2
+            </h1>
+        </div>
+
+        <div class="student-info">
+            <h2>Student Info: Samuil Valentinov Ivanov</h2>
+            <h4>Faculty №: 121220011</h4>
+            <h4>Group №: 42</h4>
+        </div>
+
+        <div class="execution">
+            <div class="form-container">
+                <form name="inputData">
+                    <input type="range" min="2" max="200" value="36" name="Cslider" onchange="changeCvalue()">
+                    C (in mm): <input class="form-style" type="text" name="C" value="36"><br>
+    
+                    <input type="range" min="2" max="200" value="163" name="Eslider" onchange="changeEvalue()">
+                    E (in mm): <input class="form-style" type="text" name="E" value="163"><br>
+                </form>
+            </div>
+    
+            <div>
+                <button id="drawButton" class="button button2" onclick="Draw()">Draw</button>
+                <button id="clearButton" class="button button2" onclick="ClearCanvas()">Clear</button>
+                <button id="defaultButton" class="button button2" onclick="SetDefaultValues()">Set default</button>
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="myCanvas" width="1000" height="500" style="border:1px solid #d3d3d3;">
+                    Your browser does not support the HTML canvas tag.
+                </canvas>
+            </div>
+        </div>
+    </body>
+</html>

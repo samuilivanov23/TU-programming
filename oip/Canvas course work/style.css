@@ -1,0 +1,60 @@
+body {
+    background-color: rgb(41, 160, 168);
+}
+
+.canvas-container {
+    float : left;
+    margin: 2em;
+    background-color: white;
+}
+
+.header-container {
+    text-align: center;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    margin-left : 2em;
+}
+
+.button2 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #008CBA;
+}
+
+.button2:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+.form-style {
+    margin-bottom: 1em;
+}
+
+.form-container {
+    margin-left: 1em;   
+}
+
+.slidecontainer {
+    width: 100%;
+}
+
+.student-info {
+    float: right;
+    margin-right: 15%;
+}
+
+.execution {
+    float: left;
+}
