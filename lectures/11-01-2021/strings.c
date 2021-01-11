@@ -4,7 +4,7 @@
 #include <memory.h>
 
 char *ReadText();
-char **Split(char *string, char delimiter, unsigned* size);
+char **Split(char *string, char delimiter, unsigned *size, unsigned *allocated_size);
 unsigned CountDelimiters(char *string, char delimiter);
 unsigned TokenLength(char *string, char delimiter);
 void FreeStrings(char **strings, unsigned length);
@@ -13,18 +13,18 @@ void OutputStrings(char **strings, unsigned length);
 int main(){
     char *text;
     char **result;
-    unsigned size;
+    unsigned array_size, allocated_size;
 
     text = ReadText();
     if(text == NULL){
         return(EXIT_FAILURE);
     }
 
-    result = Split(text, ',', &size);
+    result = Split(text, ',', &array_size, &allocated_size);
 
     if(result != NULL){
-        OutputStrings(result, size);
-        FreeStrings(result, size);
+        OutputStrings(result, array_size);
+        FreeStrings(result, allocated_size);
         result = NULL;
     }
     
@@ -56,21 +56,21 @@ char *ReadText(){
     return string;
 }
 
-char **Split(char *string, char delimiter, unsigned* array_size){
+char **Split(char *string, char delimiter, unsigned *array_size, unsigned *allocated_size){
     char **strings;
     char *tempString = string;
     int i;
     unsigned length;
-    unsigned allocate_size = CountDelimiters(string, delimiter) * sizeof(char*);
+    *allocated_size = CountDelimiters(string, delimiter) * sizeof(char*);
     *array_size = CountDelimiters(string, delimiter);
 
-    strings = (char**)malloc(allocate_size * sizeof(char*));
+    strings = (char**)malloc((*allocated_size) * sizeof(char*));
     if(strings == NULL){
         printf("Error while allocating memory");
         return NULL;
     }
 
-    for(i = 0; i < allocate_size; i++){
+    for(i = 0; i < (*allocated_size); i++){
         length = TokenLength(tempString, delimiter);
         if((strings[i] = (char*)malloc(length * sizeof(char))) == NULL){
             printf("Error while allocating memory");
