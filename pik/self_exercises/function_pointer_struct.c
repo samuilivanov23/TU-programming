@@ -22,11 +22,11 @@ int main(int argc, char **argv){
    
     MathCalculator math_calculator;
     math_calculator.operation = Add;
-    math_calculator.result = math_calculator.operation(5, 3);
+    math_calculator.result = math_calculator.operation(number1, number2);
     printf("%d\n", math_calculator.result);
 
     math_calculator.operation = Multiply;
-    math_calculator.result = math_calculator.operation(5, 3);
+    math_calculator.result = math_calculator.operation(number1, number2);
     printf("%d\n", math_calculator.result);
     return 0;
 }
