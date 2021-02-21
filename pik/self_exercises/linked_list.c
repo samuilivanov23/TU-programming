@@ -11,6 +11,7 @@ struct Node_Struct{
 };
 
 void PrintList(Node *head);
+void FindItem(Node *head, int index, Node *result_node);
 
 int main(){
   Node *head = NULL;
@@ -41,8 +42,11 @@ int main(){
   third->previous = second;
   third->next = NULL;
   
-  PrintList(head); 
-  
+  PrintList(head);
+  Node result_node;
+  FindItem(head, 3, &result_node); 
+  printf("result: %d\n", result_node.data);
+
   free(head);
   free(second);
   free(third);
@@ -50,8 +54,33 @@ int main(){
 }
 
 void PrintList(Node *head){
-  while(head!=NULL){
+  while(head != NULL){
     printf("%d: %d\n", head->index, head->data);
     head = head->next;
   }
 }
+
+void FindItem(Node *head, int index, Node *result){ 
+  while(head != NULL){
+    printf("head: %p\n", head);
+    if(head->index == index){
+      printf("index: %d\n", head->index);
+      result = head;
+    }
+    head = head->next;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
