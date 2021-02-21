@@ -58,7 +58,7 @@ int main(){
                 }
             }
             else{
-                printf("Please enter at leat 1 bank account!\n");
+                printf("Please enter at least 1 bank account!\n");
             }
         }
         else if(strcmp("LOGOUT", command) == 0 && customer.isLogged){
@@ -101,13 +101,6 @@ int main(){
         }
     }
 
-    int i;
-    for(i = 0; i < accounts_count; i++){
-        printf("%d id: %d\n", i, accounts_archive[i].id);
-        printf("%d balance: %lf\n", i, accounts_archive[i].balance);
-        printf("%d password: %s\n", i, accounts_archive[i].password);
-    }
-
     free(accounts_archive);
     return 0;
 }
@@ -118,7 +111,7 @@ void ReadData(struct _BankAccount *accounts_archive, int *accounts_count, size_t
         accounts_archive = realloc(accounts_count, sizeof(accounts_archive) * (*maxSize));
     }
 
-    scanf("%d %lf %s", &accounts_archive[*accounts_count].id, &accounts_archive[*accounts_count].balance, accounts_archive[*accounts_count].password);    
+    scanf("%d %lf %s", &accounts_archive[*accounts_count].id, &accounts_archive[*accounts_count].balance, accounts_archive[*accounts_count].password);
     *accounts_count += 1;
 }
 
@@ -163,7 +156,7 @@ void Put(struct _Customer *customer){
         scanf("%lf", &amount);
 
         if(amount < 0){
-            printf("Enter positive amount");
+            printf("Enter positive amount\n");
         }
         else{
             customer->account->balance += amount;
