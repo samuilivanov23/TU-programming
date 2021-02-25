@@ -15,7 +15,7 @@ typedef struct{
 
 int main(int argc, char **argv){
     int number1 = strtol(argv[1], NULL, 10);
-    int number2 = strtol(argv[2], NULL, 10);  
+    int number2 = strtol(argv[2], NULL, 10);
     
     printf("number1: %d\n", number1);
     printf("number2: %d\n", number2);
