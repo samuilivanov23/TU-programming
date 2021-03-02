@@ -15,32 +15,61 @@ void PrintList(Node *head);
 void FindItem(Node *head, int index, Node **result_node);
 
 int main(){
-  //Create and initialize nodes
-  Node *head =   (Node*)malloc(sizeof(Node));
-  Node *second = (Node*)malloc(sizeof(Node));
-  Node *third =  (Node*)malloc(sizeof(Node));
-  InitializeNode(&head, 0, 15, NULL, second);
-  InitializeNode(&second, 1, 20, head, third);
-  InitializeNode(&third, 2, 25, second, NULL);
+  int num_nodes;
+  printf("Enter number of nodes: ");
+  scanf("%d", &num_nodes);
+  Node **nodes = (Node**)malloc(sizeof(Node)*num_nodes);
   
-  //Print the list
-  PrintList(head);
-
-  //Find the Node by associated whith the given index
-  Node *result_node = NULL;
-  FindItem(head, 2, &result_node);
-
-  if(!(result_node == NULL)){
-    printf("result_node data: %d\n", result_node->data);
-  }
-  else{
-    printf("Item not found\n");
+  int i=0;
+  while(i < num_nodes){
+    int data;
+    printf("Input data for node: ");
+    scanf("%d", &data);
+    nodes[i] = (Node*)malloc(sizeof(Node));
+    InitializeNode(&nodes[i], i, data, NULL, NULL);
+    i++;
   }
 
-  //Free the allocated memory and exit the program
-  free(head);
-  free(second);
-  free(third);
+  i = 0;
+  while(i < num_nodes){
+    printf("%d node: %d\n", i, nodes[i]->data);
+    i++;
+  }
+
+
+  i = 0;
+  while(i < num_nodes){
+    free(nodes[i]);
+    i++;
+  }
+  free(nodes);
+
+  // //Create and initialize nodes
+  // Node *head =   (Node*)malloc(sizeof(Node));
+  // Node *second = (Node*)malloc(sizeof(Node));
+  // Node *third =  (Node*)malloc(sizeof(Node));
+  // InitializeNode(&head, 0, 15, NULL, second);
+  // InitializeNode(&second, 1, 20, head, third);
+  // InitializeNode(&third, 2, 25, second, NULL);
+  
+  // //Print the list
+  // PrintList(head);
+
+  // //Find the Node by associated whith the given index
+  // Node *result_node = NULL;
+  // FindItem(head, 2, &result_node);
+
+  // if(!(result_node == NULL)){
+  //   printf("result_node data: %d\n", result_node->data);
+  // }
+  // else{
+  //   printf("Item not found\n");
+  // }
+
+  // //Free the allocated memory and exit the program
+  // free(head);
+  // free(second);
+  // free(third);
   return 0;
 }
 
