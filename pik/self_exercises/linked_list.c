@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 // The structure for a single Node
-typedef struct Node_Struct Node; 
+typedef struct Node_Struct Node;
 struct Node_Struct{
   int index;
   int data;
@@ -10,47 +10,45 @@ struct Node_Struct{
   Node *previous;
 };
 
+void InitializeNode(Node **node, int index, int data, Node *previous, Node *next);
 void PrintList(Node *head);
-void FindItem(Node *head, int index, Node *result_node);
+void FindItem(Node *head, int index, Node **result_node);
 
 int main(){
-  Node *head = NULL;
-  Node *second = NULL;
-  Node *third = NULL;
+  //Create and initialize nodes
+  Node *head =   (Node*)malloc(sizeof(Node));
+  Node *second = (Node*)malloc(sizeof(Node));
+  Node *third =  (Node*)malloc(sizeof(Node));
+  InitializeNode(&head, 0, 15, NULL, second);
+  InitializeNode(&second, 1, 20, head, third);
+  InitializeNode(&third, 2, 25, second, NULL);
   
-  printf("Size of Node: %ld\n", sizeof(Node));
-
-  head = (Node*)malloc(sizeof(Node));
-  second = (Node*)malloc(sizeof(Node));
-  third = (Node*)malloc(sizeof(Node));
-  
-  //Initialize the head. Set the head to point to the second Node. Set the previous Node to NULL.
-  head->index = 0;
-  head->data = 15;
-  head->previous = NULL;
-  head->next = second;
-  
-  //Initialize the second Node. Set it to point to the third Node. Set the previous Node to point to the head.
-  second->index = 1;
-  second->data = 20;
-  second->previous = head;
-  second->next = third;
-  
-  //Initialize the third Node. Set it to point to NULL because its the last Node in the list. Set the previous node to point to the second.
-  third->index = 2;
-  third->data = 25;
-  third->previous = second;
-  third->next = NULL;
-  
+  //Print the list
   PrintList(head);
-  Node result_node;
-  FindItem(head, 3, &result_node); 
-  printf("result: %d\n", result_node.data);
 
+  //Find the Node by associated whith the given index
+  Node *result_node = NULL;
+  FindItem(head, 2, &result_node);
+
+  if(!(result_node == NULL)){
+    printf("result_node data: %d\n", result_node->data);
+  }
+  else{
+    printf("Item not found\n");
+  }
+
+  //Free the allocated memory and exit the program
   free(head);
   free(second);
   free(third);
   return 0;
+}
+
+void InitializeNode(Node **node, int index, int data, Node *previous, Node *next){
+  (*node)->index = index;
+  (*node)->data = data;
+  (*node)->previous = previous;
+  (*node)->next = next;
 }
 
 void PrintList(Node *head){
@@ -60,12 +58,14 @@ void PrintList(Node *head){
   }
 }
 
-void FindItem(Node *head, int index, Node *result){ 
+void FindItem(Node *head, int index, Node **result){ 
   while(head != NULL){
     printf("head: %p\n", head);
     if(head->index == index){
       printf("index: %d\n", head->index);
-      result = head;
+      (*result) = head;
+      printf("head_data: %d\n", head->data);
+      printf("result_data: %d\n", (*result)->data);
     }
     head = head->next;
   }
