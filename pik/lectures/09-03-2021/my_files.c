@@ -41,7 +41,8 @@ int *ReadFile(char *file_name, unsigned *length){
             return array;
         }
 
-        array = (int*)realloc(array, ++count);
+        array = (int*)realloc(array, (++count*sizeof(int)));
+        printf("%ld\n", sizeof(int));
         printf("count: %d\n", count);
         printf("temp: %d\n", temp);
 
