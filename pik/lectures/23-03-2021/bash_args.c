@@ -42,7 +42,6 @@ void ReadPrintFile( char *file_name, char *out_file )
     {
         perror( "open file" );
         exit( EXIT_FAILURE );
-
     }
 
     if( out_file != NULL )
