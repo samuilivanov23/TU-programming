@@ -83,13 +83,21 @@ int main()
   // current_node = current_node->childs[0];
   //}
 
+  free(tree[0]->childs[0]->childs[0]);
+  free(tree[0]->childs[0]->childs[1]);
+  free(tree[0]->childs[0]->childs[2]);
+  free(tree[0]->childs[0]->childs);
+
+  free(tree[0]->childs[1]->childs[0]);
+  free(tree[0]->childs[1]->childs[1]);
+  free(tree[0]->childs[1]->childs);
 
   free(tree[0]->childs[0]);
-  free(tree[0]->childs[1]); 
+  free(tree[0]->childs[1]);
   free(tree[0]->childs);
-  free(tree[0]); 
-  free(tree);  
-  return 0; 
+  free(tree[0]);
+  free(tree);
+  return 0;
 }
 
 int TraverseTree(Node *root)
@@ -102,7 +110,10 @@ int TraverseTree(Node *root)
 
   for (int i = 0; i < root->number_children; i++)
   {
-    printf("%d\n", root->data);
+    if(i == 0)
+    {
+      printf("%d\n", root->data);
+    }
     TraverseTree(root->childs[i]);
   }
 }
