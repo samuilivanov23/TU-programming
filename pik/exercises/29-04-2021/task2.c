@@ -182,7 +182,7 @@ void PrintList(Node* head)
                                                                             current->picture.artist_name, 
                                                                             current->picture.name, 
                                                                             current->picture.price);
-                                                                            current = current->next;
+        current = current->next;
     }
 }
 
