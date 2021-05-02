@@ -12,11 +12,14 @@ struct Smartphone_Struct {
 
 void AddToShop( char *file_path );
 void PrintShopItems( char *file_path );
+void UpdateSmartphone( char *file_path );
 
 int main()
 {
   char file_path[50] = "/tmp/pik_course_work/smartphones_shop.bin";
   AddToShop( file_path );
+  PrintShopItems( file_path );
+  UpdateSmartphone( file_path );
   PrintShopItems( file_path );
   return 0;
 }
@@ -26,7 +29,7 @@ void AddToShop( char *file_path )
   FILE *file_stream;
   if( ( file_stream = fopen( file_path, "wb" ) ) == NULL )
   {
-    printf( "Cannot open file %s.\n", file_path );
+    printf( "Cannot open file %s\n", file_path );
     perror( "Error: " );
     exit( 1 );
   }
@@ -71,7 +74,7 @@ void PrintShopItems( char *file_path )
   FILE *file_stream;
   if( ( file_stream = fopen( file_path, "rb" ) ) == NULL )
   {
-    printf( "Cannot open file %s.\n", file_path );
+    printf( "Cannot open file %s\n", file_path );
     perror( "Error: " );
     exit( 1 );
   }
@@ -95,5 +98,38 @@ void PrintShopItems( char *file_path )
     printf("\n-------------------------------\n\n");
   }
 
+  fclose(file_stream);
+}
+
+void UpdateSmartphone( char *file_path )
+{
+  FILE *file_stream;
+  if( ( file_stream = fopen( file_path, "r+b" ) ) == NULL )
+  {
+    printf( "Cannot open file %s\n", file_path );
+    perror( "Error: " );
+    exit( 1 );
+  }
+
+  Smartphone smartphone;
+  while( 1 )
+  {
+    fread( &smartphone, sizeof( smartphone ), 1, file_stream );
+
+    if( feof( file_stream ) == 1 )
+    {
+      break;
+    }
+    
+    printf("number: %s\n", smartphone.nomenclature_number);
+    if( strcmp( smartphone.nomenclature_number, "12345" ) == 0 )
+    {
+      smartphone.quantity -= 13;
+      fseek( file_stream, ftell( file_stream ) - sizeof( smartphone ), SEEK_SET );
+      fwrite( &smartphone, sizeof(smartphone), 1, file_stream );
+      break;
+    }
+  }
+  
   fclose(file_stream);
 }
