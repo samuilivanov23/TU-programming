@@ -20,33 +20,34 @@ void AddToShop( char *file_path );
 void PrintShopItems( char *file_path );
 void UpdateSmartphone( char *file_path );
 
-Node *InitializeList( Node *head, char *file_path );
+Node *InitializeList( char *file_path );
 Node *NewItem();
 Node *AddSmartphoneToShop( Node *head, Node *new );
-void BuySmartphone( Node *head );
-void AddQuantity( Node *head );
-Node *RemoveSmartphone( Node *head, char *nomenclature_number );
+Node *RemoveSmartphone( Node *head );
 void PrintList( Node *head );
 void PrintSpecificSmartphone( Node *head );
-void SaveDataToFile( Node *head, char *file_path );
-void FreeList( Node *head );
+void SaveDataToFile( char *file_path );
 
 int main()
 {
   char file_path[50] = "/tmp/pik_course_work/smartphones_shop.bin";
-  Node *head = InitializeList( NULL, file_path );
+  // AddToShop( file_path );
+  // PrintShopItems( file_path );
+  // UpdateSmartphone( file_path );
+  // PrintShopItems( file_path );
+
+  Node *head = NULL;
     
   int command = -1;
   while( command != 0 )
   {
-      printf( "MENU\nData is saved to file upon exit to prevent data loss!\n" );
+      printf( "MENU\nData is saved to file upon exit to prevent data loss!" );
       printf( "0. EXIT\n" );
       printf( "1. ADD new data\n" );
       printf( "2. Buy samrtphone\n" );
-      printf( "3. ADD count to existing stock\n" ); 
-      printf( "4. PRINT info for all pictures\n" );
-      printf( "5. PRINT info for specific smartphone\n" );
-      printf("6. SAVE data to file\n");
+      printf( "3. PRINT info for all pictures\n" );
+      printf( "4. PRINT info for specific smartphone\n" );
+      printf("5. SAVE data to file");
       printf( "###############\n" );
 
       printf( "Your command: " );
@@ -59,25 +60,21 @@ int main()
               head = AddSmartphoneToShop( head, NewItem() );
               break;
           case 2:
-              BuySmartphone( head );
+              //head = TODO
               break;
           case 3:
-              AddQuantity( head );
-              break;
-          case 4:
               PrintList( head );
               break;
-          case 5:
+          case 4:
               PrintSpecificSmartphone( head );
               break;
-          case 6:
-              SaveDataToFile( head, file_path );
-              break;
+          case 5:
+              
       }
   }
 
-  SaveDataToFile( head, file_path );
   FreeList( head );
+
   return 0;
 }
 
@@ -116,10 +113,7 @@ Node *NewItem()
 
 Node *AddSmartphoneToShop( Node *head, Node *new )
 {
-  if( head != NULL )
-  {  
-    new->next = head;
-  }
+  new->next = head;
   head = new;
   return head;
 }
@@ -128,7 +122,6 @@ void PrintList( Node *head )
 {
   Node *current = head;
 
-  printf( "\n-------------------------------\n" );
   while( current )
   {
     printf( "nomenclature number: %s\nmodel: %s\nprice: %lf\nquantity: %d\n", current->smartphone.nomenclature_number,
@@ -152,7 +145,6 @@ void PrintSpecificSmartphone( Node *head )
     nomenclature_number[strlen( nomenclature_number ) - 1] = '\0';
   }
 
-  printf( "\n-------------------------------\n" );
   while( current )
   {
     if( strcmp( current->smartphone.nomenclature_number, nomenclature_number ) == 0 )
@@ -168,7 +160,7 @@ void PrintSpecificSmartphone( Node *head )
   }
 }
 
-void FreeList( Node *head )
+Node *FreeList( Node *head )
 {
   Node *current = head;
   while(head != NULL)
@@ -177,16 +169,14 @@ void FreeList( Node *head )
       free(current);
       current = head;
   }
-}
-
-Node *InitializeList( Node *head, char *file_path )
+oid InitializeList( Node *head, char *file_path )
 {
   FILE *file_stream;
   if( ( file_stream = fopen( file_path, "rb" ) ) == NULL )
   {
-    printf( "Cannot open file %s\n", file_path );
+    printf( "Cannot open file %S\n", file_path );
     perror( "Error: " );
-    return NULL;
+    exit(1);  
   }
 
   Smartphone smartphone;
@@ -198,127 +188,118 @@ Node *InitializeList( Node *head, char *file_path )
     {
       break;
     }
-    
-    Node *current = ( Node* )malloc( sizeof( Node ) );
-    current->smartphone = smartphone;
-    head = AddSmartphoneToShop( head, current );
-  } 
 
-  fclose( file_stream );
-  return head;
+    head = AddSmartphoneToShop( head, smartphone );
+  } 
 }
 
-void SaveDataToFile( Node *head, char *file_path )
+
+void AddToShop( char *file_path )
 {
   FILE *file_stream;
-  if ( ( file_stream = fopen( file_path, "wb" ) ) == NULL )
+  if( ( file_stream = fopen( file_path, "wb" ) ) == NULL )
   {
     printf( "Cannot open file %s\n", file_path );
     perror( "Error: " );
-    exit(1);
+    exit( 1 );
   }
+  
+  Smartphone smartphone;
+  int smartphones_add_count;
+  printf( "Enter number of smartphones to add: " );
+  scanf( "%d", &smartphones_add_count );
+  getchar();
 
-  Node *current = head;
-  while( current )
+  for( int i = 0; i < smartphones_add_count; i++ )
   {
-    fwrite( &current->smartphone, sizeof(current->smartphone), 1, file_stream );
-    current = current->next;
-  }
-
-  fclose( file_stream );
-  printf( "Successfully saved data to %s\n", file_path );
-}
-
-void BuySmartphone( Node *head )
-{
-  char nomenclature_number[12];
-  printf( "Enter nomenclature number of phone to buy: " );
-  fgets(nomenclature_number, 12, stdin);
-  if( nomenclature_number[strlen( nomenclature_number ) - 1] == '\n' )
-  {
-    nomenclature_number[strlen( nomenclature_number ) - 1] = '\0';
-  }
-
-  Node *current = head;
-  while( current )
-  {
-    if( strcmp( current->smartphone.nomenclature_number, nomenclature_number ) == 0 )
+    printf( "nomenclature number: " );
+    fgets(smartphone.nomenclature_number, 12, stdin);
+    if( smartphone.nomenclature_number[strlen( smartphone.nomenclature_number ) - 1] == '\n' )
     {
-      while( 1 )
-      {
-        unsigned int input_quantity;
-        printf( "Enter quantity to buy: " );
-        scanf( "%d", &input_quantity );
-
-        printf( "---------------------------------\nsmartphone quantity: %d\nentered quantity: %d\n", current->smartphone.quantity, input_quantity );
-        printf( "Diff: %d\n", current->smartphone.quantity - input_quantity );        
-        int difference = current->smartphone.quantity - input_quantity;       
-
-        if( difference == 0 )
-        {
-          head = RemoveSmartphone( head, nomenclature_number );
-          break;
-        }
-        else if( difference > 0 )
-        {
-          current->smartphone.quantity -= input_quantity;
-          break;
-        }
-        else
-        {
-          printf( "Not enough quantity in stock. Please chose lesser count.\n" );
-        }
-      }
+      smartphone.nomenclature_number[strlen( smartphone.nomenclature_number ) - 1] = '\0';
     }
-    current = current->next;
-  }
-}
-
-Node *RemoveSmartphone( Node *head, char *nomenclature_number )
-{
-    while ( head && ( strcmp( head->smartphone.nomenclature_number, nomenclature_number ) == 0 ) )
-    {   
-        head = head->next;
-        free( head );
-    }
-
-    Node* current;
-    for( current = head; current != NULL; current = current->next )
-    {
-        while( current->next != NULL && ( strcmp( current->next->smartphone.nomenclature_number, nomenclature_number ) == 0 ) )
-        {
-            Node* temp = current->next;
-            current->next = temp->next;
-            free( temp );
-        }
-    }
-
-    free( current );
-    return head;
-}
-
-void AddQuantity( Node *head )
-{
-  char nomenclature_number[12];
-  printf( "Enter nomenclature number of phone to buy: " );
-  fgets(nomenclature_number, 12, stdin);
-  if( nomenclature_number[strlen( nomenclature_number ) - 1] == '\n' )
-  {
-    nomenclature_number[strlen( nomenclature_number ) - 1] = '\0';
-  }
-
-  Node *current = head;
-  while( current )
-  {
-    if( strcmp( current->smartphone.nomenclature_number, nomenclature_number ) == 0 )
-    {
-      unsigned int input_quantity;
-      printf( "Enter quantity to add: " );
-      scanf( "%d", &input_quantity );
       
-      current->smartphone.quantity += input_quantity;
+    printf( "model: " );
+    fgets(smartphone.model, 20, stdin);
+    if( smartphone.model[strlen( smartphone.model ) - 1] == '\n' )
+    {
+      smartphone.model[strlen( smartphone.model ) - 1] = '\0';
+    }
+
+    printf( "price: " );
+    scanf( "%lf", &smartphone.price );
+
+    printf( "quantity: " );
+    scanf( "%d", &smartphone.quantity );
+    getchar(); 
+    fwrite( &smartphone, sizeof(smartphone), 1, file_stream );
+  }
+  
+  fclose( file_stream );
+  printf( "Succesfully added %d smartphones to the shop.\n", smartphones_add_count );
+}
+
+void PrintShopItems( char *file_path )
+{
+  FILE *file_stream;
+  if( ( file_stream = fopen( file_path, "rb" ) ) == NULL )
+  {
+    printf( "Cannot open file %s\n", file_path );
+    perror( "Error: " );
+    exit( 1 );
+  }
+
+  Smartphone smartphone;
+  int smartphones_add_count;
+  
+  while( 1 )
+  {
+    fread( &smartphone, sizeof(smartphone), 1, file_stream );
+
+    if( feof( file_stream ) != 0 )
+    {
       break;
     }
-    current = current->next;
+
+    printf("nomenclature number: %s\nmodel: %s\nprice: %lf\nquantity: %d\n", smartphone.nomenclature_number,
+                                                                               smartphone.model,
+                                                                               smartphone.price,
+                                                                               smartphone.quantity);
+    printf("\n-------------------------------\n\n");
   }
+
+  fclose(file_stream);
+}
+
+void UpdateSmartphone( char *file_path )
+{
+  FILE *file_stream;
+  if( ( file_stream = fopen( file_path, "r+b" ) ) == NULL )
+  {
+    printf( "Cannot open file %s\n", file_path );
+    perror( "Error: " );
+    exit( 1 );
+  }
+
+  Smartphone smartphone;
+  while( 1 )
+  {
+    fread( &smartphone, sizeof( smartphone ), 1, file_stream );
+
+    if( feof( file_stream ) == 1 )
+    {
+      break;
+    }
+    
+    printf("number: %s\n", smartphone.nomenclature_number);
+    if( strcmp( smartphone.nomenclature_number, "12345" ) == 0 )
+    {
+      smartphone.quantity -= 13;
+      fseek( file_stream, ftell( file_stream ) - sizeof( smartphone ), SEEK_SET );
+      fwrite( &smartphone, sizeof(smartphone), 1, file_stream );
+      break;
+    }
+  }
+  
+  fclose(file_stream);
 }
