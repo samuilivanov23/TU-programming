@@ -1,82 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef struct Smartphone_Struct Smartphone;
-struct Smartphone_Struct {
-  char nomenclature_number[12];
-  char model[20];
-  double price;
-  unsigned int quantity;
-};
-
-typedef struct Node_Struct Node;
-struct Node_Struct {
-  Smartphone smartphone;
-  Node *next;
-};
-
-Node *InitializeList( Node *head, char *file_path );
-Node *NewItem();
-Node *AddSmartphoneToShop( Node *head, Node *new );
-Node *BuySmartphone( Node *head );
-void AddQuantity( Node *head );
-Node *RemoveSmartphone( Node *head, char *nomenclature_number );
-void PrintList( Node *head );
-void PrintSpecificSmartphone( Node *head );
-void SaveDataToFile( Node *head, char *file_path );
-void FreeList( Node *head );
-char *RemoveTrailingNL( char *string );
-
-int main()
-{
-  char file_path[50] = "/tmp/pik_course_work/smartphones_shop.bin";
-  Node *head = InitializeList( NULL, file_path );
-    
-  int command = -1;
-  while( command != 0 )
-  {
-      printf( "MENU\nData is saved to file upon exit to prevent data loss!\n" );
-      printf( "0. EXIT\n" );
-      printf( "1. ADD new data\n" );
-      printf( "2. Buy samrtphone\n" );
-      printf( "3. ADD count to existing stock\n" ); 
-      printf( "4. PRINT info for all pictures\n" );
-      printf( "5. PRINT info for specific smartphone\n" );
-      printf("6. SAVE data to file\n");
-      printf( "###############\n" );
-
-      printf( "Your command: " );
-      scanf( "%d", &command );
-      getchar();
-
-      switch( command )
-      {
-          case 1:
-              head = AddSmartphoneToShop( head, NewItem() );
-              break;
-          case 2:
-              head = BuySmartphone( head );
-              break;
-          case 3:
-              AddQuantity( head );
-              break;
-          case 4:
-              PrintList( head );
-              break;
-          case 5:
-              PrintSpecificSmartphone( head );
-              break;
-          case 6:
-              SaveDataToFile( head, file_path );
-              break;
-      }
-  }
-
-  SaveDataToFile( head, file_path );
-  FreeList( head );
-  return 0;
-}
+#include "functions.h"
 
 Node *NewItem()
 {
@@ -122,12 +47,7 @@ void PrintList( Node *head )
   printf( "\n-------------------------------\n" );
   while( current )
   {
-    printf( "nomenclature number: %s\nmodel: %s\nprice: %lf\nquantity: %d\n", current->smartphone.nomenclature_number,
-                                                                               current->smartphone.model,
-                                                                               current->smartphone.price,
-                                                                               current->smartphone.quantity );
-    printf( "-------------------------------\n\n" );
-
+    PrintData( current->smartphone );
     current = current->next;
   }
 }
@@ -145,15 +65,20 @@ void PrintSpecificSmartphone( Node *head )
   {
     if( strcmp( current->smartphone.nomenclature_number, nomenclature_number ) == 0 )
     {
-      printf("nomenclature number: %s\nmodel: %s\nprice: %lf\nquantity: %d\n", current->smartphone.nomenclature_number,
-                                                                               current->smartphone.model,
-                                                                               current->smartphone.price,
-                                                                               current->smartphone.quantity);
-      printf("-------------------------------\n\n");
+      PrintData( current->smartphone );
     }
 
     current = current->next;
   }
+}
+
+void PrintData( Smartphone smartphone )
+{
+  printf( "nomenclature number: %s\nmodel: %s\nprice: %lf\nquantity: %d\n", smartphone.nomenclature_number,
+                                                                            smartphone.model,
+                                                                            smartphone.price,
+                                                                            smartphone.quantity );
+  printf( "-------------------------------\n\n" );
 }
 
 void FreeList( Node *head )
@@ -263,32 +188,32 @@ Node *BuySmartphone( Node *head )
 
 Node *RemoveSmartphone( Node *head, char *nomenclature_number )
 {
-    while ( head && ( strcmp( head->smartphone.nomenclature_number, nomenclature_number ) == 0 ) )
-    {  
-        printf( "HERE\n" );
-        if( !head->next )
-        {
-          head = NULL;
-          free( head );
-          return head;
-        }
-        head = head->next;
-        free( head );
-    }
-
-    Node* current;
-    for( current = head; current != NULL; current = current->next )
+  Node* current;
+  while ( head && ( strcmp( head->smartphone.nomenclature_number, nomenclature_number ) == 0 ) )
+  {  
+    if( !head->next )
     {
-        while( current->next != NULL && ( strcmp( current->next->smartphone.nomenclature_number, nomenclature_number ) == 0 ) )
-        {
-            Node* temp = current->next;
-            current->next = temp->next;
-            free( temp );
-        }
+      free( head );
+      return NULL;
     }
+    
+    current = head->next;
+    free( head );
+    head = current;
+  }
+ 
+  for( current = head; current != NULL; current = current->next )
+  {
+    while( current->next != NULL && ( strcmp( current->next->smartphone.nomenclature_number, nomenclature_number ) == 0 ) )
+    {
+      Node* temp = current->next;
+      current->next = temp->next;
+      free( temp );
+    }
+  }
 
-    free( current );
-    return head;
+  free( current );
+  return head;
 }
 
 void AddQuantity( Node *head )
