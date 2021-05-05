@@ -16,20 +16,17 @@ struct Node_Struct {
   Node *next;
 };
 
-void AddToShop( char *file_path );
-void PrintShopItems( char *file_path );
-void UpdateSmartphone( char *file_path );
-
 Node *InitializeList( Node *head, char *file_path );
 Node *NewItem();
 Node *AddSmartphoneToShop( Node *head, Node *new );
-void BuySmartphone( Node *head );
+Node *BuySmartphone( Node *head );
 void AddQuantity( Node *head );
 Node *RemoveSmartphone( Node *head, char *nomenclature_number );
 void PrintList( Node *head );
 void PrintSpecificSmartphone( Node *head );
 void SaveDataToFile( Node *head, char *file_path );
 void FreeList( Node *head );
+char *RemoveTrailingNL( char *string );
 
 int main()
 {
@@ -59,7 +56,7 @@ int main()
               head = AddSmartphoneToShop( head, NewItem() );
               break;
           case 2:
-              BuySmartphone( head );
+              head = BuySmartphone( head );
               break;
           case 3:
               AddQuantity( head );
@@ -89,17 +86,11 @@ Node *NewItem()
 
   printf( "nomenclature number: " );
   fgets(smartphone.nomenclature_number, 12, stdin);
-  if( smartphone.nomenclature_number[strlen( smartphone.nomenclature_number ) - 1] == '\n' )
-  {
-    smartphone.nomenclature_number[strlen( smartphone.nomenclature_number ) - 1] = '\0';
-  }
+  strcpy( smartphone.nomenclature_number, RemoveTrailingNL( smartphone.nomenclature_number ) );
     
   printf( "model: " );
   fgets(smartphone.model, 20, stdin);
-  if( smartphone.model[strlen( smartphone.model ) - 1] == '\n' )
-  {
-    smartphone.model[strlen( smartphone.model ) - 1] = '\0';
-  }
+  strcpy( smartphone.model, RemoveTrailingNL( smartphone.model ) );
 
   printf( "price: " );
   scanf( "%lf", &smartphone.price );
@@ -135,7 +126,7 @@ void PrintList( Node *head )
                                                                                current->smartphone.model,
                                                                                current->smartphone.price,
                                                                                current->smartphone.quantity );
-    printf( "\n-------------------------------\n\n" );
+    printf( "-------------------------------\n\n" );
 
     current = current->next;
   }
@@ -147,10 +138,7 @@ void PrintSpecificSmartphone( Node *head )
   char nomenclature_number[12];
   printf("Enter nomenclature number of phone to display: ");
   fgets( nomenclature_number, 12, stdin );
-  if( nomenclature_number[strlen( nomenclature_number ) - 1] == '\n' )
-  {
-    nomenclature_number[strlen( nomenclature_number ) - 1] = '\0';
-  }
+  strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
 
   printf( "\n-------------------------------\n" );
   while( current )
@@ -161,7 +149,7 @@ void PrintSpecificSmartphone( Node *head )
                                                                                current->smartphone.model,
                                                                                current->smartphone.price,
                                                                                current->smartphone.quantity);
-      printf("\n-------------------------------\n\n");
+      printf("-------------------------------\n\n");
     }
 
     current = current->next;
@@ -229,15 +217,12 @@ void SaveDataToFile( Node *head, char *file_path )
   printf( "Successfully saved data to %s\n", file_path );
 }
 
-void BuySmartphone( Node *head )
+Node *BuySmartphone( Node *head )
 {
   char nomenclature_number[12];
   printf( "Enter nomenclature number of phone to buy: " );
   fgets(nomenclature_number, 12, stdin);
-  if( nomenclature_number[strlen( nomenclature_number ) - 1] == '\n' )
-  {
-    nomenclature_number[strlen( nomenclature_number ) - 1] = '\0';
-  }
+  strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
 
   Node *current = head;
   while( current )
@@ -272,12 +257,21 @@ void BuySmartphone( Node *head )
     }
     current = current->next;
   }
+
+  return head;
 }
 
 Node *RemoveSmartphone( Node *head, char *nomenclature_number )
 {
     while ( head && ( strcmp( head->smartphone.nomenclature_number, nomenclature_number ) == 0 ) )
-    {   
+    {  
+        printf( "HERE\n" );
+        if( !head->next )
+        {
+          head = NULL;
+          free( head );
+          return head;
+        }
         head = head->next;
         free( head );
     }
@@ -302,10 +296,7 @@ void AddQuantity( Node *head )
   char nomenclature_number[12];
   printf( "Enter nomenclature number of phone to buy: " );
   fgets(nomenclature_number, 12, stdin);
-  if( nomenclature_number[strlen( nomenclature_number ) - 1] == '\n' )
-  {
-    nomenclature_number[strlen( nomenclature_number ) - 1] = '\0';
-  }
+  strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
 
   Node *current = head;
   while( current )
@@ -321,4 +312,14 @@ void AddQuantity( Node *head )
     }
     current = current->next;
   }
+}
+
+char *RemoveTrailingNL( char *string )
+{
+  if( string[strlen( string ) - 1] == '\n' )
+  {
+    string[strlen( string ) - 1] = '\0';
+  }
+
+  return string;
 }
