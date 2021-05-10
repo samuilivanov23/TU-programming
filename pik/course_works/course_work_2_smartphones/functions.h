@@ -12,15 +12,15 @@ struct Node_Struct {
   Node *next;
 };
 
-Node *InitializeList( Node *head, char *file_path );
 Node *NewItem();
-Node *AddSmartphoneToShop( Node *head, Node *new );
-Node *BuySmartphone( Node *head );
-void AddQuantity( Node *head );
-Node *RemoveSmartphone( Node *head, char *nomenclature_number );
+void FreeList( Node *head );
 void PrintList( Node *head );
+void AddQuantity( Node *head );
+Node *BuySmartphone( Node *head );
+char *RemoveTrailingNL( char *string );
 void PrintData( Smartphone smartphone );
 void PrintSpecificSmartphone( Node *head );
+Node *AddSmartphoneToShop( Node *head, Node *new );
 void SaveDataToFile( Node *head, char *file_path );
-void FreeList( Node *head );
-char *RemoveTrailingNL( char *string );
+Node *InitializeList( Node *head, char *file_path );
+Node *RemoveSmartphone( Node *head, char *nomenclature_number );
