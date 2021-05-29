@@ -4,19 +4,42 @@
 #include "functions.h"
 
 //Generates a new smartphones
-Node *NewItem()
+Node *NewItem( Node *head )
 {
   Node *result = NULL;
   result = ( Node * )malloc( sizeof( Node ) );
   Smartphone smartphone;
 
   //Reads data from user
-  printf( "nomenclature number: " );
-  fgets(smartphone.nomenclature_number, 12, stdin);
-  strcpy( smartphone.nomenclature_number, RemoveTrailingNL( smartphone.nomenclature_number ) );
-  
+  while( 1 )
+  {
+    printf( "nomenclature number: " );
+    fgets(smartphone.nomenclature_number, NOMENCLATURE_NUMBER_SIZE, stdin);
+    strcpy( smartphone.nomenclature_number, RemoveTrailingNL( smartphone.nomenclature_number ) );
+    int is_unique = IsNomenclatureNumberUnique( head, smartphone.nomenclature_number );
+
+    //checks for nomenclature_number_size - 1 because the last char (13th char) is the zero '\0' character
+    if( ( strlen( smartphone.nomenclature_number ) == NOMENCLATURE_NUMBER_SIZE - 1 ) )
+    {
+      getchar();
+
+      if( is_unique )
+      {
+        break;
+      }
+    }
+    else
+    {
+      printf( "Please enter 12 character nomenclature number.\n" );
+    }
+  }
+
   printf( "model: " );
-  fgets(smartphone.model, 20, stdin);
+  fgets(smartphone.model, MODEL_SIZE, stdin);
+  if( strlen( smartphone.model ) == MODEL_SIZE )
+  {
+    getchar();
+  }
   strcpy( smartphone.model, RemoveTrailingNL( smartphone.model ) );
 
   printf( "price: " );
@@ -63,11 +86,11 @@ void PrintList( Node *head )
 void PrintSpecificSmartphone( Node *head )
 {
   Node *current = head;
-  char nomenclature_number[12];
+  char nomenclature_number[NOMENCLATURE_NUMBER_SIZE];
   
   //Takes input from user
   printf("Enter nomenclature number of phone to display: ");
-  fgets( nomenclature_number, 12, stdin );
+  fgets( nomenclature_number, NOMENCLATURE_NUMBER_SIZE, stdin );
   strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
 
   printf( "\n-------------------------------\n" );
@@ -173,11 +196,11 @@ void SaveDataToFile( Node *head, char *file_path )
 //Simulates buying a smartphone by changing its quantity
 Node *BuySmartphone( Node *head )
 {
-  char nomenclature_number[12];
+  char nomenclature_number[NOMENCLATURE_NUMBER_SIZE];
 
   //Takes input from user
   printf( "Enter nomenclature number of phone to buy: " );
-  fgets(nomenclature_number, 12, stdin);
+  fgets(nomenclature_number, NOMENCLATURE_NUMBER_SIZE, stdin);
   strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
 
   Node *current = head;
@@ -272,9 +295,9 @@ Node *RemoveSmartphone( Node *head, char *nomenclature_number )
 void AddQuantity( Node *head )
 {
   //Take input from the user
-  char nomenclature_number[12];
+  char nomenclature_number[NOMENCLATURE_NUMBER_SIZE];
   printf( "Enter nomenclature number of phone to buy: " );
-  fgets(nomenclature_number, 12, stdin);
+  fgets(nomenclature_number, NOMENCLATURE_NUMBER_SIZE, stdin);
   strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
 
   Node *current = head;
@@ -302,10 +325,30 @@ void AddQuantity( Node *head )
 //Removes the trailing new line characters from string inputed with fgets
 char *RemoveTrailingNL( char *string )
 {
-  if( string[strlen( string ) - 1] == '\n' )
+  if( strlen( string ) > 0 && string[strlen( string ) - 1] == '\n' )
   {
     string[strlen( string ) - 1] = '\0';
   }
 
   return string;
+}
+
+//Checks if there is already a smartphone with the entered nomenclature number in the list
+//if so -> the user should enter unique nomenclature number
+int IsNomenclatureNumberUnique( Node *head, char *nomenclature_number )
+{
+  Node *current = head;
+
+  while( current )
+  {
+    if( strcmp( current->smartphone.nomenclature_number, nomenclature_number ) == 0 )
+    {
+      printf( "A phone with this nomenclature number already exists.\n" );
+      return 0;
+    }
+
+    current = current->next;
+  }
+
+  return 1;
 }

@@ -5,8 +5,7 @@
 
 int main()
 {
-  char file_path[50] = "/tmp/pik_course_work/smartphones_shop.bin";
-  Node *head = InitializeList( NULL, file_path );
+  Node *head = InitializeList( NULL, FILE_PATH );
     
   int command = -1;
   while( command != 0 )
@@ -28,7 +27,7 @@ int main()
       switch( command )
       {
           case 1:
-              head = AddSmartphoneToShop( head, NewItem() );
+              head = AddSmartphoneToShop( head, NewItem( head ) );
               break;
           case 2:
               head = BuySmartphone( head );
@@ -43,12 +42,12 @@ int main()
               PrintSpecificSmartphone( head );
               break;
           case 6:
-              SaveDataToFile( head, file_path );
+              SaveDataToFile( head, FILE_PATH );
               break;
       }
   }
 
-  SaveDataToFile( head, file_path );
+  SaveDataToFile( head, FILE_PATH );
   FreeList( head );
   return 0;
 }
