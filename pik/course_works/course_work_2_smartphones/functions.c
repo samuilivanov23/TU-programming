@@ -148,12 +148,20 @@ Node *InitializeList( Node *head, char *file_path )
   //loops through the end of file and read the data, structure by structure
   while( 1 )
   {
-    fread( &smartphone, sizeof(smartphone), 1, file_stream );
+    int read = fread( &smartphone, sizeof(smartphone), 1, file_stream );
+    
     if( feof( file_stream ) != 0 )
     {
       break;
     }
     
+    if( read != 1 )
+    {
+      printf( "An error occurred while trying to read from file.\n" );
+      perror( "Error: " );
+      exit( 1 );
+    }
+
     //allocates memory for the current node and adds it to the list
     Node *current = ( Node* )malloc( sizeof( Node ) );
     current->smartphone = smartphone;
@@ -184,7 +192,10 @@ void SaveDataToFile( Node *head, char *file_path )
   Node *current = head;
   while( current )
   {
-    fwrite( &current->smartphone, sizeof(current->smartphone), 1, file_stream );
+    if( fwrite( &current->smartphone, sizeof(current->smartphone), 1, file_stream ) != 1 )
+    {
+      printf( "An error occurred while trying to write to file.\n" );
+    }
     current = current->next;
   }
 
