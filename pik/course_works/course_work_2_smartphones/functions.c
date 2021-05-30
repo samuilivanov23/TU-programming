@@ -210,9 +210,23 @@ Node *BuySmartphone( Node *head )
   char nomenclature_number[NOMENCLATURE_NUMBER_SIZE];
 
   //Takes input from user
-  printf( "Enter nomenclature number of phone to buy: " );
-  fgets(nomenclature_number, NOMENCLATURE_NUMBER_SIZE, stdin);
-  strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
+
+  while( 1 )
+  {
+    printf( "Enter nomenclature number of phone to buy: " );
+    fgets(nomenclature_number, NOMENCLATURE_NUMBER_SIZE, stdin);
+    strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
+    
+    if( !IsNomenclatureNumberUnique( head, nomenclature_number ) )
+    {
+      break;
+    }
+    else
+    {
+      printf( "A phone with this nomenclature number does not exist. Enter an existing one.\n" );
+      getchar();
+    }
+  }
 
   Node *current = head;
 
