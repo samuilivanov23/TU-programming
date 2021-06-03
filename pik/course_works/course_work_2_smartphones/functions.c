@@ -238,11 +238,23 @@ Node *BuySmartphone( Node *head )
       //loops until a valid operation is performed
       while( 1 )
       {
-        unsigned int input_quantity;
+        int input_quantity;
 
         //Takes input from user
-        printf( "Enter quantity to buy: " );
-        scanf( "%d", &input_quantity );
+        while( 1 )
+        {
+          printf( "Enter quantity to buy: " );
+          scanf( "%d", &input_quantity );
+
+          if( input_quantity > 0 )
+          {
+            break;
+          }
+          else
+          {
+            printf( "Please enter a positive number!\n" );
+          }
+        }
 
         printf( "---------------------------------\nsmartphone quantity: %d\nentered quantity: %d\n", current->smartphone.quantity, input_quantity );
         printf( "Diff: %d\n", current->smartphone.quantity - input_quantity );        
@@ -321,9 +333,23 @@ void AddQuantity( Node *head )
 {
   //Take input from the user
   char nomenclature_number[NOMENCLATURE_NUMBER_SIZE];
-  printf( "Enter nomenclature number of phone to buy: " );
-  fgets(nomenclature_number, NOMENCLATURE_NUMBER_SIZE, stdin);
-  strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
+
+  while( 1 )
+  {
+    printf( "Enter nomenclature number of phone to buy: " );
+    fgets(nomenclature_number, NOMENCLATURE_NUMBER_SIZE, stdin);
+    strcpy( nomenclature_number, RemoveTrailingNL( nomenclature_number ) );
+    
+    if( !IsNomenclatureNumberUnique( head, nomenclature_number ) )
+    {
+      break;
+    }
+    else
+    {
+      printf( "A phone with this nomenclature number does not exist. Enter an existing one.\n" );
+      getchar();
+    }
+  }
 
   Node *current = head;
   
@@ -334,9 +360,23 @@ void AddQuantity( Node *head )
     if( strcmp( current->smartphone.nomenclature_number, nomenclature_number ) == 0 )
     {
       //Take input for quantity to be bought
-      unsigned int input_quantity;
-      printf( "Enter quantity to add: " );
-      scanf( "%d", &input_quantity );
+      int input_quantity;
+
+      //Takes input from user
+      while( 1 )
+      {
+        printf( "Enter quantity to add: " );
+        scanf( "%d", &input_quantity );
+
+        if( input_quantity > 0 )
+        {
+          break;
+        }
+        else
+        {
+          printf( "Please enter a positive number!\n" );
+        }
+      }
       
       //modifies current node quantity based on the inputted data
       current->smartphone.quantity += input_quantity;

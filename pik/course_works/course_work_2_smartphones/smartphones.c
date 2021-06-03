@@ -44,12 +44,12 @@ int main()
           case 6:
               SaveDataToFile( head, FILE_PATH );
               break;
-		  default:
-		      if( command != 0 )
-			  {
-			    printf( "Please enter a valid option (from 0 to 6).\n" );
-			  }
-			  break;
+		      default:
+		        if( command != 0 )
+			      {
+			        printf( "Please enter a valid option (from 0 to 6).\n" );
+			      }
+			      break;
       }
   }
 
