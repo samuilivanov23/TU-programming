@@ -1,7 +1,9 @@
 import java.util.Scanner;
 
-class StartUp{
-  public static void main(String args[]){
+class StartUp
+{
+  public static void main(String args[])
+  {
     Scanner sc = new Scanner(System.in);
 
     System.out.println( "Enter your name: " );
@@ -21,7 +23,6 @@ class StartUp{
     int count = 1;
     for( String item: biography )
     {
-
       System.out.println( count + ": " + item );
       count++;
     }
