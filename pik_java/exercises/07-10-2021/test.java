@@ -1,29 +1,58 @@
 import java.util.Scanner;
 
-class StartUp{
-  public static void main(String args[]){
-    Scanner sc = new Scanner(System.in);
+class StartUp
+{
+    public static void main(String[] args)
+    {
+        String text = "Text test";
+        PrintName(text);
+    }
 
-    System.out.println( "Enter your name: " );
-    String name = sc.nextLine();
+    public static void PrintName(String s)
+    {
+        System.out.println(s);
+    }
 
-    System.out.println( "Enter your age: " );
-    String age = sc.nextLine();
-    
-    System.out.println( "Enter your gender: " );
-    String gender = sc.nextLine();
-    
-    System.out.println( "Enter some other info: " );
-    String other_info = sc.nextLine();
-    
-    String[] biography = { name, age, gender, other_info };
+    public int testMethod(int x) { return x; }
 
-    int count = 1;
-    for( String item: biography )
+    public void testMethod(int i, int j) { }
+
+    private static void PrintIntroduction()
+    {
+        System.out.println("BMI calculator");
+    }
+
+    private static double GetBMI(Scanner scanner)
+    {
+        System.out.prinln("Enter weight");
+        double weight = Double.parseDouble(scanner.nextLine());
+
+        System.out.prinln("Enter weight");
+        double height = Double.parseDouble(scanner.nextLine());
+    }
+
+    private static double BmiFor(double weight, double height)
     {
 
-      System.out.println( count + ": " + item );
-      count++;
     }
-  }
+
+    private static String GetStatus(double bmi)
+    {
+        if()
+        {
+            return "underweight";
+        }
+        else if()
+        {
+            return "normal";
+        }
+        else if()
+        {
+            return "overweight";
+        }
+        else
+        {
+            return "obese";
+        }
+    }
 }
