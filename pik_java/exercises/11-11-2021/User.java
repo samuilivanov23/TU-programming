@@ -33,5 +33,4 @@ class User implements ValidatePhone
             throw new WrongPhoneNumberException();
         }
     }
-
 }
