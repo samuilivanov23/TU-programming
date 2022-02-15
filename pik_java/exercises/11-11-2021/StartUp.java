@@ -25,7 +25,9 @@ class StartUp
                     String username = scanner.nextLine();
 
                     System.out.print("Enter phone number: ");
-                    String phoneNumber = scanner.nextLine();
+                    String phoneNumber = scanner.n
+
+                    extLine();
 
                     String password, passwordAgain;
                     
