@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS books (
     PRIMARY KEY (id),
     KEY author_id (author_id),
     CONSTRAINT books_ibfk_1 FOREIGN KEY (author_id) REFERENCES authors (id)
-)l
+);
