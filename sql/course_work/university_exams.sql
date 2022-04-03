@@ -54,3 +54,17 @@ CREATE TABLE IF NOT EXISTS students_subjects(
     CONSTRAINT FOREIGN KEY (student_id) REFERENCES students(id),
     CONSTRAINT FOREIGN KEY (subject_id) REFERENCES subjects(id)
 );
+
+CREATE TABLE IF NOT EXISTS exams_audit(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    inserted_at TIMESTAMP DEFAULT NOW(),
+    operation ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
+    old_name VARCHAR(100) NOT NULL,
+    new_name VARCHAR(100),
+    old_conducting_date TIMESTAMP NOT NULL,
+    new_conducting_date TIMESTAMP,
+    old_session_type ENUM('зимна', 'лятна') NOT NULL,
+    new_session_type ENUM('зимна', 'лятна'),
+    old_average_score DECIMAL NOT NULL,
+    new_average_score DECIMAL
+);
