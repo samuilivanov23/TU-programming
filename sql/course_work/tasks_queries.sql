@@ -56,7 +56,7 @@ FOR EACH ROW
 DELIMITER ;
 
 /* Coursor */
-MITER |
+DELIMITER |
 CREATE PROCEDURE CursorTest()
 BEGIN
         DECLARE finished INT;
