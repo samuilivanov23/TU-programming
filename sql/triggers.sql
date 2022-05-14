@@ -70,7 +70,7 @@ FOR EACH ROW
     BEGIN
        DECLARE err_message varchar(255);
        IF (SELECT NEW.CountryCode NOT IN (SELECT DISTINCT c.CountryCode FROM city AS c) AS my_country) THEN 
-            SET err_message='ERROR_MESSAGE|||Population must not be negative!'; 
+            SET err_message='ERROR_MESSAGE|||Country code does not exist!'; 
             signal sqlstate '45000' SET message_text = err_message;
        END IF;
     END;
