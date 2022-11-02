@@ -1,5 +1,5 @@
 /* Task 1 */
-select * from students where group_number=44;
+SELECT * FROM students WHERE group_number=44;
 
 /* Task 2 */
 SELECT course_number, group_number, COUNT(*) AS students_count FROM students WHERE course_number=2 GROUP BY group_number;
@@ -18,7 +18,21 @@ DELIMITER |
 
 CREATE PROCEDURE GetAllWinterExamsOfSpecificCourse(IN courseNumber CHAR(1))
 BEGIN
-    SELECT * FROM students AS s JOIN students_exams AS se ON s.id=se.student_id JOIN exams AS e ON se.exam_id=e.id WHERE s.course_number=courseNumber AND e.session_type='зимна';
+    SELECT s.id AS student_id, 
+           s.first_name, 
+           s.last_name, 
+           s.faculty_number, 
+           s.group_number, 
+           s.course_number, 
+           e.id AS exam_id, 
+           e.name AS exam_name, 
+           e.conducting_date, 
+           e.session_type, 
+           e.average_score 
+    FROM students AS s 
+    JOIN students_exams AS se ON s.id=se.student_id 
+    JOIN exams AS e ON se.exam_id=e.id 
+    WHERE s.course_number=courseNumber AND e.session_type='зимна';
 END;
 |
 DELIMITER ;
@@ -56,7 +70,7 @@ FOR EACH ROW
 DELIMITER ;
 
 /* Coursor */
-MITER |
+DELIMITER |
 CREATE PROCEDURE CursorTest()
 BEGIN
         DECLARE finished INT;
@@ -75,11 +89,10 @@ BEGIN
         exam_loop: WHILE( finished = 0 )
         DO
             FETCH ExamCursor INTO tmpName, tmpSessionType, tmpAverageScore;
-            IF( finished = 1 )
-                THEN
+            IF( finished = 1 ) THEN
                     LEAVE exam_loop;
-                END IF;
-                SELECT tmpName, tmpSessionType, tmpAverageScore;
+            END IF;
+            SELECT tmpName, tmpSessionType, tmpAverageScore;
         END WHILE;
         CLOSE ExamCursor;
         SET finished = 0;
