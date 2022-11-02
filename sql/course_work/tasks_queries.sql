@@ -89,11 +89,10 @@ BEGIN
         exam_loop: WHILE( finished = 0 )
         DO
             FETCH ExamCursor INTO tmpName, tmpSessionType, tmpAverageScore;
-            IF( finished = 1 )
-                THEN
+            IF( finished = 1 ) THEN
                     LEAVE exam_loop;
-                END IF;
-                SELECT tmpName, tmpSessionType, tmpAverageScore;
+            END IF;
+            SELECT tmpName, tmpSessionType, tmpAverageScore;
         END WHILE;
         CLOSE ExamCursor;
         SET finished = 0;
